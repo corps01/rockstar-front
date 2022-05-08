@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import MediaCard from "../components/Card";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import axios from "axios";
 import { fetchAlbums } from "../services/album";
 
 const Home = () => {

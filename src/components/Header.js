@@ -5,7 +5,7 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import ExploreIcon from '@mui/icons-material/Explore';
 import { Link } from "react-router-dom";
 
 const Header = () => {
@@ -27,8 +27,8 @@ const Header = () => {
         <Toolbar sx={{ justifyContent: "flex-end" }} spacing={3}>
         <Link to='/' style = {styles.Link}>
           <IconButton color="inherit">
-            <LibraryMusicIcon />
-            <p style={styles.p}>Home</p>
+            <ExploreIcon />
+            <p style={styles.p}>Explore</p>
           </IconButton>
           </Link>
         <Link to='/cart' style = {styles.Link}>
