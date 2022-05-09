@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import { Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
 import { fetchAlbums } from "../services/album";
 import FormGroup from "@mui/material/FormGroup";
@@ -13,12 +13,16 @@ import Checkbox from "@mui/material/Checkbox";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import addToCart from "../features/cartSlice"
+import { useDispatch, useSelector } from "react-redux";
+import { increment } from "../redux/cartSlice"
+
+//import addToCart from "../redux/cartSlice"
 
 const Buy = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { count } = useSelector((state) => state.counter)
 
   const [album, setAlbum] = useState([]);
   const { id } = useParams();
@@ -73,7 +77,7 @@ const Buy = () => {
     // let cartItems = {
     //   album: album,
     // };
-    dispatch(addToCart({name: "CUCO"}))
+    dispatch(increment())
    // navigate("/cart");
   };
 
