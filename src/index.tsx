@@ -4,15 +4,29 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux"
+//import {store} from "./features/store"
+
+import { configureStore } from '@reduxjs/toolkit'
+import cartReducer from "./features/cartSlice"
+
+const store = configureStore({
+reducer: {
+    cart: cartReducer,
+},
+});
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
+    <Provider store={store}>
        <BrowserRouter>
           <App />
         </BrowserRouter>
+        </Provider>
   </React.StrictMode>
 );
 

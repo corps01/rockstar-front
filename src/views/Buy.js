@@ -11,9 +11,15 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import Table from "../components/Table";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import addToCart from "../features/cartSlice"
 
 const Buy = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+
   const [album, setAlbum] = useState([]);
   const { id } = useParams();
 
@@ -26,25 +32,55 @@ const Buy = () => {
   }, []);
 
   const [songSelection, setSongSelection] = useState([]);
-  const setSong = (e, song_id) => {
+  const setSong = (e, selectedSong) => {
     if (!e) {
-      setSongSelection(songSelection.filter((id) => id !== song_id));
+      setSongSelection(
+        songSelection.filter(
+          (selectedSongs) => selectedSongs.id !== selectedSong.id
+        )
+      );
       return;
     }
-    setSongSelection([song_id, ...songSelection]);
+    setSongSelection([selectedSong, ...songSelection]);
   };
 
-  const addSongsToCart = () =>{
-    console.log()
-  }
+  const addSongsToCart = () => {
+    if (songSelection.length > 1) {
+      let cartItems = {
+        songs: songSelection,
+        album: album,
+      };
 
+      //ADD TO REDUX
+      navigate("/cart");
+    } else {
+      Swal.fire({
+        icon: "error",
+        showCancelButton: true,
+        confirmButtonText: "Purchase whole album",
+        title: "You did not select any tracks",
+        text: "Do you wish to purchase the whole album?",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          //ADD TO REDUX
+          navigate("/cart");
+        }
+      });
+    }
+  };
 
-  console.log(album)
+  const addAlbumtoCart = () => {
+    // let cartItems = {
+    //   album: album,
+    // };
+    dispatch(addToCart({name: "CUCO"}))
+   // navigate("/cart");
+  };
 
   return (
     <Box>
       <Link to="/">Back</Link>
-      <Grid container sx={{ p:6}}>
+      <Grid container sx={{ p: 6 }}>
         <Box
           component="img"
           sx={{
@@ -55,12 +91,14 @@ const Buy = () => {
             boxShadow:
               "0 1px 1px hsl(0deg 0% 0% / 0.075), 0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075), 0 8px 8px hsl(0deg 0% 0% / 0.075), 0 16px 16px hsl(0deg 0% 0% / 0.075)",
           }}
-          alt="The house from the offer."
+          alt="album img"
           src={album.img}
         />
         <Box sx={{ p: 6 }}>
           <Typography variant="h3">{album.name}</Typography>
-          <Typography>Artist: {album.artists?.[0]?.name}</Typography>
+          <Typography>
+            Artist: {album.artists?.map((artist) => artist.name)}
+          </Typography>
           <Typography>Launch Date: {album.launch_date}</Typography>
           <Typography>Genre: {album.genre}</Typography>
           <Typography>Price: {album.price}</Typography>
@@ -68,13 +106,14 @@ const Buy = () => {
             sx={{ marginTop: 2, borderRadius: "2rem" }}
             variant="contained"
             size="large"
+            onClick={addAlbumtoCart}
           >
             Buy Complete Album
             <ShoppingCartIcon />
           </Button>
         </Box>
       </Grid>
-      <Stack container="true" sx={{ px: 6, paddingTop:0  }}>
+      <Stack container="true" sx={{ px: 6, paddingTop: 0 }}>
         <Typography variant="h4">{album.name}</Typography>
         <table>
           <tbody>
@@ -85,7 +124,7 @@ const Buy = () => {
               <th>Time</th>
               <th>Buy</th>
             </tr>
-            {album.songs?.map((song,i) => (
+            {album.songs?.map((song, i) => (
               <tr key={i}>
                 <td>{song.id}</td>
                 <td>{song.name}</td>
@@ -96,7 +135,7 @@ const Buy = () => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          onChange={(e) => setSong(e.target.checked, song.id, song.name)}
+                          onChange={(e) => setSong(e.target.checked, song)}
                         ></Checkbox>
                       }
                       label="$0.99"
@@ -108,14 +147,19 @@ const Buy = () => {
           </tbody>
         </table>
       </Stack>
-      <Grid sx={{ px: 7, paddingTop:4 }} justify="flex-end">
+      <Grid sx={{ px: 7, paddingTop: 4 }} justify="flex-end">
         <Box
           //margin
           display="flex"
           justifyContent="flex-end"
           alignItems="flex-end"
         >
-          <Button variant="contained" color="primary" sx={{ height: 40 }} onClick={addSongsToCart}>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ height: 40 }}
+            onClick={addSongsToCart}
+          >
             Add Songs to Cart
             <ShoppingCartIcon />
           </Button>
