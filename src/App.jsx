@@ -6,6 +6,7 @@ import Home from "./views/Home";
 import { Box } from "@mui/material";
 import Buy from "./views/Buy";
 import Cart from "./views/Cart";
+import Checkout from "./views/Checkout"
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/details/:id" element={<Buy />} />
+            <Route path="/checkout" element={<Checkout />} />
           </Routes>
         </Box>
     </>

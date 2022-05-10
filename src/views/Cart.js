@@ -2,12 +2,18 @@ import { Box, Stack, IconButton, Button } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart } from "../redux/cartSlice";
+import { Link } from "react-router-dom";
 
 
 const Cart = () => {
 const dispatch = useDispatch();
 const cart = useSelector((state) => state.cart.items);
 console.log(cart)
+
+let cartTotal = 0
+cart.forEach(cartItem => {
+  cartTotal +=  parseInt(cartItem.price)
+});
 
   return (
     <Box sx={{ p: 6 }} >
@@ -31,9 +37,8 @@ console.log(cart)
         <p>{cartItem.song?.name}</p>
         <p>{cartItem.album.name}</p>
         <p>{cartItem.album.artists?.map((artist) => artist.name)}</p>
-        <p>{cartItem.album.price}</p>
-        <IconButton color="error">
-          onClick={dispatch(removeFromCart(cartItem))}
+        <p>{cartItem.price}</p>
+        <IconButton color="error" onClick={()=>{dispatch(removeFromCart(cartItem))}}>
             <DeleteIcon />
           </IconButton>
           </Stack>
@@ -43,17 +48,19 @@ console.log(cart)
       <Box>
             <h1>cart</h1>
             <h2>
-                Total Items: 1
+                Total Items: {cart.length}
             </h2>
             <h3>
-                Total: $20
+                Total: {cartTotal} 
             </h3>
+            <Link to='/checkout'>
             <Button
             sx={{ marginTop: 2}}
             variant="contained"
             size="large">
                 Check-out
                 </Button>
+                </Link>
             </Box>
       </Stack>
     </Box>
