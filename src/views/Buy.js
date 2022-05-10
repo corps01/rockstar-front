@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import { Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchAlbums } from "../services/album";
 import FormGroup from "@mui/material/FormGroup";
@@ -13,16 +13,14 @@ import Checkbox from "@mui/material/Checkbox";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { increment } from "../redux/cartSlice"
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/cartSlice";
 
 //import addToCart from "../redux/cartSlice"
 
 const Buy = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const { count } = useSelector((state) => state.counter)
 
   const [album, setAlbum] = useState([]);
   const { id } = useParams();
@@ -49,13 +47,11 @@ const Buy = () => {
   };
 
   const addSongsToCart = () => {
-    if (songSelection.length > 1) {
-      let cartItems = {
-        songs: songSelection,
-        album: album,
-      };
-
-      //ADD TO REDUX
+    if (songSelection.length >= 1) {
+      let cartItems = [];
+      songSelection.forEach((song) => cartItems.push({song, album, price:99}))
+      // ADD CART ITEMS TO REDUX
+      dispatch(addToCart(cartItems));
       navigate("/cart");
     } else {
       Swal.fire({
@@ -66,19 +62,20 @@ const Buy = () => {
         text: "Do you wish to purchase the whole album?",
       }).then((result) => {
         if (result.isConfirmed) {
-          //ADD TO REDUX
-          navigate("/cart");
+          addAlbumtoCart();
         }
       });
     }
   };
 
   const addAlbumtoCart = () => {
-    // let cartItems = {
-    //   album: album,
-    // };
-    dispatch(increment())
-   // navigate("/cart");
+    let cartItems = [{
+      album: album,
+      price: album.price
+    }];
+    //ADD CART ITEMS TO REDUX
+    dispatch(addToCart(cartItems));
+    navigate("/cart");
   };
 
   return (

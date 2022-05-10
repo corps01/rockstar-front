@@ -1,24 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const counterSlice = createSlice({
-  name: 'counter',
+export const cartSlice = createSlice({
+  name: 'cart',
   initialState: {
-    value: 0,
+    items: [],
+    total: 0
   },
   reducers: {
-    increment: (state) => {
-      state.value += 1
+    addToCart: (state, action) => {
+      state.items = state.items.concat(action.payload)
     },
-    decrement: (state) => {
-      state.value -= 1
-    },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload
+    removeFromCart: (state, action) => {
+      state.singers.splice(action.payload, 1);
     },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
+export const { addToCart } = cartSlice.actions
 
-export default counterSlice.reducer
+export default cartSlice.reducer

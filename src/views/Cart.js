@@ -1,19 +1,22 @@
 import { Box, Stack, IconButton, Button } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { removeFromCart } from "../redux/cartSlice";
 
 
 const Cart = () => {
-
-//     const cart = useSelector((state) => state.cart.cartItems);
-// console.log(cart)
+const dispatch = useDispatch();
+const cart = useSelector((state) => state.cart.items);
+console.log(cart)
 
   return (
     <Box sx={{ p: 6 }} >
-        <Stack direction='row' sx={{backgroundColor: 'yellow'}} spacing={40}>
-      <Stack spacing={4} sx={{backgroundColor: 'red'}}>
+        <Stack direction='row' spacing={40}>
+      <Stack spacing={4}>
       <h1>Cart</h1>
-        <Stack direction='row' alignItems="center" spacing={4}>
+      {cart.map((cartItem, index) => (
+       <>
+       <Stack direction='row' alignItems="center" spacing={4} key={index}>
         <Box
           component="img"
           sx={{
@@ -23,18 +26,21 @@ const Cart = () => {
             maxWidth: { xs: 50 },
           }}
           alt="album img"
-          src="https://upload.wikimedia.org/wikipedia/en/2/27/Daft_Punk_-_Discovery.png"
+          src={cartItem.album?.img}
         />
-        <p>Stronger</p>
-        <p>Graduation</p>
-        <p>Kanye West</p>
-        <p>$ .99</p>
+        <p>{cartItem.song?.name}</p>
+        <p>{cartItem.album.name}</p>
+        <p>{cartItem.album.artists?.map((artist) => artist.name)}</p>
+        <p>{cartItem.album.price}</p>
         <IconButton color="error">
+          onClick={dispatch(removeFromCart(cartItem))}
             <DeleteIcon />
           </IconButton>
+          </Stack>
+       </>
+      ))}
       </Stack>
-      </Stack>
-      <Box sx={{backgroundColor: 'blue'}}>
+      <Box>
             <h1>cart</h1>
             <h2>
                 Total Items: 1
