@@ -31,7 +31,7 @@ const Library = () => {
 
   return (
     <Box container sx={{ p: 3 }}>
-      <IconButton onClick={() => navigate(-1)}><ArrowBackIosRoundedIcon/></IconButton>
+      <IconButton onClick={() => navigate('/')}><ArrowBackIosRoundedIcon/></IconButton>
       <Grid container sx={{ p: 6 }}>
         <Box
           component="img"

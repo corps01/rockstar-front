@@ -2,7 +2,7 @@ import { Box, Stack, IconButton, Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart } from "../redux/cartSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import Swal from "sweetalert2";
 
@@ -30,7 +30,11 @@ const Cart = () => {
           navigate("/");
         }
       });
+    }else{
+      navigate("/checkout");
     }
+
+
   }
 
   return (
@@ -45,6 +49,8 @@ const Cart = () => {
             cart.map((cartItem, index) => (
               <>
                 <Stack
+                  key={index}
+                  sx={{justifyContent: 'space-between'}}
                   direction="row"
                   alignItems="center"
                   spacing={4}
@@ -84,11 +90,9 @@ const Cart = () => {
           <h1>cart</h1>
           <h2>Total Items: {cart.length}</h2>
           <h3>Total: {cartTotal}</h3>
-          <Link to="/checkout">
             <Button  onClick={handleCheckout} sx={{ marginTop: 2 }} variant="contained" size="large">
               Check-out
             </Button>
-          </Link>
         </Box>
       </Stack>
     </Box>

@@ -12,12 +12,12 @@ const Checkout = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ p: 6 }}>
+    <Box sx={{ p: 6, justifyContent: "space-between" }}>
       <IconButton onClick={() => navigate(-1)}>
         <ArrowBackIosRoundedIcon />
       </IconButton>
       <h2>Shipping</h2>
-      <Stack direction="row">
+      <Stack direction="row" sx={{justifyContent: "space-between"}}>
         <p>Shipping Adress:{"shiping,sadde"}</p>
         <FormGroup></FormGroup>
       </Stack>

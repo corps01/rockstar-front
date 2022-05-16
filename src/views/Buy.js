@@ -41,7 +41,7 @@ const Buy = () => {
   const addSongsToCart = () => {
     if (songSelection.length >= 1) {
       let cartItems = [];
-      songSelection.forEach((song) => cartItems.push({song, album, price:99}))
+      songSelection.forEach((song) => cartItems.push({song, album, price:.99}))
       dispatch(addToCart(cartItems));
       navigate("/cart");
     } else {
