@@ -17,8 +17,8 @@ const Home = () => {
 
   return (
     <Box container justifyContent="center">
-      <h1>Music</h1>
-      <Grid container justifyContent="center">
+      <h1>Buy your favorite music</h1>
+      <Grid container>
         {albums.map((album, index) =>
           album ? <MediaCard key={index} album={album} /> : <></>
         )}

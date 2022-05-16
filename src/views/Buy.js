@@ -1,22 +1,14 @@
 import React from "react";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import { Stack, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { fetchAlbums } from "../services/album";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/cartSlice";
-
-//import addToCart from "../redux/cartSlice"
+import { Checkbox, IconButton, FormControlLabel,FormGroup, Button, Grid, Stack, Typography, Box } from "@mui/material";
+import ShoppingCartRoundedIcon from '@mui/icons-material/ShoppingCartRounded';
+import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
+import PlayCircleFilledRoundedIcon from '@mui/icons-material/PlayCircleFilledRounded';
+import Swal from "sweetalert2";
 
 const Buy = () => {
   const dispatch = useDispatch();
@@ -50,7 +42,6 @@ const Buy = () => {
     if (songSelection.length >= 1) {
       let cartItems = [];
       songSelection.forEach((song) => cartItems.push({song, album, price:99}))
-      // ADD CART ITEMS TO REDUX
       dispatch(addToCart(cartItems));
       navigate("/cart");
     } else {
@@ -73,14 +64,13 @@ const Buy = () => {
       album: album,
       price: album.price
     }];
-    //ADD CART ITEMS TO REDUX
     dispatch(addToCart(cartItems));
     navigate("/cart");
   };
 
   return (
-    <Box>
-      <Link to="/">Back</Link>
+    <Box container sx={{ p: 3 }}>
+      <IconButton onClick={() => navigate(-1)}><ArrowBackIosRoundedIcon/></IconButton>
       <Grid container sx={{ p: 6 }}>
         <Box
           component="img"
@@ -110,7 +100,7 @@ const Buy = () => {
             onClick={addAlbumtoCart}
           >
             Buy Complete Album
-            <ShoppingCartIcon />
+            <ShoppingCartRoundedIcon sx={{ paddingLeft: 1}}/>
           </Button>
         </Box>
       </Grid>
@@ -119,9 +109,9 @@ const Buy = () => {
         <table>
           <tbody>
             <tr>
-              <th>Song Id</th>
+              <th>Song id</th>
               <th>Song</th>
-              <th> {"|>"} </th>
+              <th>Preview</th>
               <th>Time</th>
               <th>Buy</th>
             </tr>
@@ -129,7 +119,7 @@ const Buy = () => {
               <tr key={i}>
                 <td>{song.id}</td>
                 <td>{song.name}</td>
-                <td>{"play"}</td>
+                <td><PlayCircleFilledRoundedIcon/></td>
                 <td>{song.song_length}</td>
                 <td>
                   <FormGroup>
@@ -150,7 +140,6 @@ const Buy = () => {
       </Stack>
       <Grid sx={{ px: 7, paddingTop: 4 }} justify="flex-end">
         <Box
-          //margin
           display="flex"
           justifyContent="flex-end"
           alignItems="flex-end"
@@ -162,7 +151,7 @@ const Buy = () => {
             onClick={addSongsToCart}
           >
             Add Songs to Cart
-            <ShoppingCartIcon />
+            <ShoppingCartRoundedIcon sx={{ paddingLeft: 1}}/>
           </Button>
         </Box>
       </Grid>
